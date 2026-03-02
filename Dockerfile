@@ -26,6 +26,9 @@ ENV TCNN_CUDA_ARCHITECTURES=86
 ENV TORCH_CUDA_ARCH_LIST=8.6
 # hack: link libcuda.so so the tiny-cuda-nn compiles at build
 RUN ln -s /root/miniforge3/envs/GaussianEditor/lib/stubs/libcuda.so /root/miniforge3/envs/GaussianEditor/lib
+# rembg pulls in a numba version whose sdist is broken (missing versioneer/README.rst).
+# Install numba via conda first so pip finds it satisfied and skips the source build.
+RUN /root/miniforge3/bin/mamba install -n GaussianEditor -y numba && /root/miniforge3/bin/mamba clean -afy
 COPY gaussiansplatting gaussiansplatting
 RUN /root/miniforge3/bin/conda run --live-stream -n GaussianEditor pip install -r requirements.lock.txt \
     && /root/miniforge3/bin/conda run --live-stream -n GaussianEditor pip cache purge
