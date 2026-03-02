@@ -53,6 +53,12 @@ STUB="${MINIFORGE_PATH}/envs/${CONDA_ENV}/lib/stubs/libcuda.so"
 DEST="${MINIFORGE_PATH}/envs/${CONDA_ENV}/lib/libcuda.so"
 [[ -L "${DEST}" ]] || ln -s "${STUB}" "${DEST}"
 
+# Pre-install build-time deps needed by transitive source builds.
+# rembg pulls in an old numba that requires versioneer at setup.py time;
+# setuptools>=60 breaks numpy.distutils used by that same numba build.
+"${CONDA}" run --live-stream -n "${CONDA_ENV}" \
+    pip install "setuptools<60" "versioneer==0.29"
+
 cd "${REPO_ROOT}"
 "${CONDA}" run --live-stream -n "${CONDA_ENV}" \
     pip install -r requirements.lock.txt
