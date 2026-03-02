@@ -1,5 +1,10 @@
 --extra-index-url https://download.pytorch.org/whl/cu118
 
+# pin numba+llvmlite to versions with prebuilt wheels for Python 3.8 linux/amd64
+# rembg requires numba>=0.53.0; without this pin pip resolves a broken sdist
+numba==0.58.1
+llvmlite==0.41.1
+
 omegaconf==2.3.0
 jaxtyping==0.2.19
 typeguard==4.1.5
