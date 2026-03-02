@@ -30,7 +30,7 @@ RUN ln -s /root/miniforge3/envs/GaussianEditor/lib/stubs/libcuda.so /root/minifo
 # Install numba via conda first so pip finds it satisfied and skips the source build.
 RUN /root/miniforge3/bin/mamba install -n GaussianEditor -y numba && /root/miniforge3/bin/mamba clean -afy
 COPY gaussiansplatting gaussiansplatting
-RUN /root/miniforge3/bin/conda run --live-stream -n GaussianEditor pip install -r requirements.lock.txt \
+RUN /root/miniforge3/bin/conda run --live-stream -n GaussianEditor pip install --prefer-binary -r requirements.lock.txt \
     && /root/miniforge3/bin/conda run --live-stream -n GaussianEditor pip cache purge
 
 # additional - install viser & build webclient
